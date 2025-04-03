@@ -5,39 +5,57 @@ const buttons = document.querySelectorAll("button");
 const levelCounter = document.getElementById("levelCounter");
 
 const playerImage = new Image();
-playerImage.src = "girl.webp"; // Substitua pelo caminho da sua imagem
+playerImage.src = "girl.webp"; // Substitua pelo caminho correto da imagem
 
-let player = { x: 0, y: canvas.height - 40, size: 40, speed: 10 };
+let player = { x: 10, y: 30, size: 60, speed: 10 };
 let solutions = [];
 let currentODS = null;
 let levelsCompleted = 0;
+let background = new Image();
 
 const solutionsByODS = {
     2: [
         { x: 50, y: 50, size: 20, color: "green", name: "Agricultura Sustentável" },
         { x: 300, y: 100, size: 20, color: "red", name: "Banco de Alimentos" },
-        { x: 200, y: 250, size: 20, color: "orange", name: "Programas de Merenda Escolar" }
+        { x: 200, y: 250, size: 20, color: "orange", name: "Programas de Merenda Escolar" },
+        { x: 400, y: 350, size: 20, color: "blue", name: "Redução do Desperdício" },
+        { x: 100, y: 400, size: 20, color: "purple", name: "Produção Orgânica" }
     ],
     3: [
         { x: 50, y: 50, size: 20, color: "blue", name: "Vacinação" },
         { x: 300, y: 100, size: 20, color: "purple", name: "Saneamento Básico" },
-        { x: 200, y: 250, size: 20, color: "pink", name: "Atendimento Médico Acessível" }
+        { x: 200, y: 250, size: 20, color: "pink", name: "Atendimento Médico Acessível" },
+        { x: 400, y: 350, size: 20, color: "green", name: "Promoção da Saúde Mental" },
+        { x: 150, y: 450, size: 20, color: "yellow", name: "Atividade Física para Todos" }
     ],
     10: [
         { x: 50, y: 50, size: 20, color: "yellow", name: "Inclusão Digital" },
         { x: 300, y: 100, size: 20, color: "brown", name: "Leis Anti-discriminação" },
-        { x: 200, y: 250, size: 20, color: "gray", name: "Apoio a Pequenos Negócios" }
+        { x: 200, y: 250, size: 20, color: "gray", name: "Apoio a Pequenos Negócios" },
+        { x: 400, y: 350, size: 20, color: "red", name: "Acesso à Educação" },
+        { x: 150, y: 450, size: 20, color: "blue", name: "Programas de Capacitação" }
     ]
 };
+
+const backgroundsByODS = {
+    2: "fundo_ods2.png",
+    3: "fundo_ods3.png",
+    10: "fundo_ods10.png"
+};
+
 
 function startGame(ods) {
     currentODS = ods;
     solutions = JSON.parse(JSON.stringify(solutionsByODS[ods]));
+    background.src = backgroundsByODS[ods];
+
     buttons.forEach(btn => btn.style.display = "none");
     canvas.style.display = "block";
     instructions.style.display = "block";
+
     player.x = 0;
     player.y = canvas.height - player.size;
+
     update();
 }
 
@@ -47,6 +65,10 @@ function resetGame() {
     canvas.style.display = "none";
     instructions.style.display = "none";
     buttons.forEach(btn => btn.style.display = "inline-block");
+}
+
+function drawBackground() {
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 }
 
 function drawPlayer() {
@@ -99,6 +121,7 @@ function animateCollection(solution) {
 
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackground();
     drawPlayer();
     drawSolutions();
     checkCollision();

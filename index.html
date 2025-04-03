@@ -8,12 +8,14 @@
 </head>
 <body>
     <h1>Pegue a mudança</h1>
+    <p id="levelCounter">Níveis concluídos: 0</p> <!-- Contador de níveis -->
+    
     <p>Escolha uma ODS para coletar soluções:</p>
     <button onclick="startGame(2)">Erradicação da Fome (ODS 2)</button>
     <button onclick="startGame(3)">Saúde e Bem-estar (ODS 3)</button>
     <button onclick="startGame(10)">Redução das Desigualdades (ODS 10)</button>
 
-    <canvas id="gameCanvas" width="400" height="400" style="display:none;"></canvas>
+    <canvas id="gameCanvas" width="500" height="500" style="display:none;"></canvas>
     <p id="instructions" style="display:none;">Use as setas do teclado para mover e coletar soluções.</p>
     <p id="qrCode" style="display:none;"></p>
 
