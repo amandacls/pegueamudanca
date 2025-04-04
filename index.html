@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pegue a mudança</title>
+    <title>Jogo ODS</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Pegue a mudança</h1>
-    <p id="levelCounter">Níveis concluídos: 0</p> <!-- Contador de níveis -->
-    
-    <p>Escolha uma ODS para coletar soluções:</p>
-    <button onclick="startGame(2)">Erradicação da Fome (ODS 2)</button>
-    <button onclick="startGame(3)">Saúde e Bem-estar (ODS 3)</button>
-    <button onclick="startGame(10)">Redução das Desigualdades (ODS 10)</button>
 
-    <canvas id="gameCanvas" width="500" height="500" style="display:none;"></canvas>
-    <p id="instructions" style="display:none;">Use as setas do teclado para mover e coletar soluções.</p>
-    <p id="qrCode" style="display:none;"></p>
+    <h1>Pegue a mudança</h1>
+    <h3>Escolha uma ODS e pegue soluções para ela</h3>
+    <div id="buttons">
+        <button onclick="startGame(2)">ODS 2 - Fome Zero</button>
+        <button onclick="startGame(3)">ODS 3 - Saúde e bem-estar</button>
+        <button onclick="startGame(10)">ODS 10 - Redução das desigualdades</button>
+    </div>
+
+    <p id="instructions" style="display: none;">
+        Use as setas do teclado ou os botões abaixo para mover o personagem e coletar as soluções!
+    </p>
+
+    <p id="levelCounter">Níveis concluídos: 0</p>
+
+    <canvas id="gameCanvas" width="500" height="500" style="display: none; border: 1px solid #000;"></canvas>
+
+    <div id="mobileControls" style="display: none;">
+        <button onclick="move('up')">⬆️</button><br>
+        <button onclick="move('left')">⬅️</button>
+        <button onclick="move('down')">⬇️</button>
+        <button onclick="move('right')">➡️</button>
+    </div>
 
     <script src="script.js"></script>
 </body>

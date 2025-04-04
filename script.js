@@ -1,7 +1,7 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const instructions = document.getElementById("instructions");
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll("#buttons button");
 const levelCounter = document.getElementById("levelCounter");
 
 const playerImage = new Image();
@@ -83,24 +83,23 @@ function startGame(ods) {
     canvas.style.display = "block";
     instructions.style.display = "block";
 
+    if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+        document.getElementById("mobileControls").style.display = "block";
+    }
+
     player.x = 0;
     player.y = canvas.height - player.size;
 
-    background.onload = () => {
-        update(); 
-    };
-
-    loadSolutionImages(solutions, () => {
-        update(); 
-    });
+    background.onload = () => update();
+    loadSolutionImages(solutions, () => update());
 }
-
 
 function resetGame() {
     levelsCompleted++;
     levelCounter.textContent = `Níveis concluídos: ${levelsCompleted}`;
     canvas.style.display = "none";
     instructions.style.display = "none";
+    document.getElementById("mobileControls").style.display = "none";
     buttons.forEach(btn => btn.style.display = "inline-block");
 }
 
@@ -146,7 +145,7 @@ function checkCollision() {
 function animateCollection(solution) {
     let size = solution.size;
     let interval = setInterval(() => {
-        update(); // Garante que o fundo e os outros itens sejam redesenhados corretamente
+        update();
         ctx.drawImage(solution.image, solution.x, solution.y, size, size);
         size += 5;
         if (size > 60) clearInterval(interval);
@@ -168,3 +167,11 @@ window.addEventListener("keydown", (event) => {
     if (event.key === "ArrowDown" && player.y + player.size < canvas.height) player.y += player.speed;
     update();
 });
+
+function move(direction) {
+    if (direction === "right" && player.x + player.size < canvas.width) player.x += player.speed;
+    if (direction === "left" && player.x > 0) player.x -= player.speed;
+    if (direction === "up" && player.y > 0) player.y -= player.speed;
+    if (direction === "down" && player.y + player.size < canvas.height) player.y += player.speed;
+    update();
+}
