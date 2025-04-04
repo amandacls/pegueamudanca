@@ -5,7 +5,7 @@ const buttons = document.querySelectorAll("button");
 const levelCounter = document.getElementById("levelCounter");
 
 const playerImage = new Image();
-playerImage.src = "girl.webp"; // Substitua pelo caminho correto da imagem
+playerImage.src = "girl.png"; // Caminho da imagem do jogador
 
 let player = { x: 10, y: 30, size: 60, speed: 10 };
 let solutions = [];
@@ -13,36 +13,66 @@ let currentODS = null;
 let levelsCompleted = 0;
 let background = new Image();
 
+const solutionImages = {
+    "Agricultura Sustentável": "agricultura.png",
+    "Banco de Alimentos": "banco.png",
+    "Programas de Merenda Escolar": "merenda.png",
+    "Redução do Desperdício": "desperdicio.png",
+    "Produção Orgânica": "organico.png",
+    "Vacinação": "vacinacao.png",
+    "Saneamento Básico": "saneamento.png",
+    "Atendimento Médico Acessível": "medico.png",
+    "Promoção da Saúde Mental": "mental.png",
+    "Atividade Física para Todos": "atividade.png",
+    "Inclusão Digital": "inclusao.png",
+    "Leis Anti-discriminação": "cyberbullying.png",
+    "Apoio a Pequenos Negócios": "negocios.png",
+    "Acesso à Educação": "educacao.png",
+    "Programas de Capacitação": "capacitacao.png"
+};
+
 const solutionsByODS = {
     2: [
-        { x: 50, y: 50, size: 20, color: "green", name: "Agricultura Sustentável" },
-        { x: 300, y: 100, size: 20, color: "red", name: "Banco de Alimentos" },
-        { x: 200, y: 250, size: 20, color: "orange", name: "Programas de Merenda Escolar" },
-        { x: 400, y: 350, size: 20, color: "blue", name: "Redução do Desperdício" },
-        { x: 100, y: 400, size: 20, color: "purple", name: "Produção Orgânica" }
+        { x: 50, y: 50, size: 40, name: "Agricultura Sustentável" },
+        { x: 300, y: 100, size: 40, name: "Banco de Alimentos" },
+        { x: 200, y: 250, size: 40, name: "Programas de Merenda Escolar" },
+        { x: 400, y: 350, size: 40, name: "Redução do Desperdício" },
+        { x: 100, y: 400, size: 40, name: "Produção Orgânica" }
     ],
     3: [
-        { x: 50, y: 50, size: 20, color: "blue", name: "Vacinação" },
-        { x: 300, y: 100, size: 20, color: "purple", name: "Saneamento Básico" },
-        { x: 200, y: 250, size: 20, color: "pink", name: "Atendimento Médico Acessível" },
-        { x: 400, y: 350, size: 20, color: "green", name: "Promoção da Saúde Mental" },
-        { x: 150, y: 450, size: 20, color: "yellow", name: "Atividade Física para Todos" }
+        { x: 50, y: 50, size: 40, name: "Vacinação" },
+        { x: 300, y: 100, size: 40, name: "Saneamento Básico" },
+        { x: 200, y: 250, size: 40, name: "Atendimento Médico Acessível" },
+        { x: 400, y: 350, size: 40, name: "Promoção da Saúde Mental" },
+        { x: 150, y: 450, size: 40, name: "Atividade Física para Todos" }
     ],
     10: [
-        { x: 50, y: 50, size: 20, color: "yellow", name: "Inclusão Digital" },
-        { x: 300, y: 100, size: 20, color: "brown", name: "Leis Anti-discriminação" },
-        { x: 200, y: 250, size: 20, color: "gray", name: "Apoio a Pequenos Negócios" },
-        { x: 400, y: 350, size: 20, color: "red", name: "Acesso à Educação" },
-        { x: 150, y: 450, size: 20, color: "blue", name: "Programas de Capacitação" }
+        { x: 50, y: 50, size: 40, name: "Inclusão Digital" },
+        { x: 300, y: 100, size: 40, name: "Leis Anti-discriminação" },
+        { x: 200, y: 250, size: 40, name: "Apoio a Pequenos Negócios" },
+        { x: 400, y: 350, size: 40, name: "Acesso à Educação" },
+        { x: 150, y: 450, size: 40, name: "Programas de Capacitação" }
     ]
 };
 
 const backgroundsByODS = {
-    2: "fundo_ods2.png",
-    3: "fundo_ods3.png",
-    10: "fundo_ods10.png"
+    2: "background.png",
+    3: "background.png",
+    10: "background.png"
 };
 
+function loadSolutionImages(solutions, callback) {
+    let loaded = 0;
+    solutions.forEach(sol => {
+        const img = new Image();
+        img.src = solutionImages[sol.name];
+        img.onload = () => {
+            sol.image = img;
+            loaded++;
+            if (loaded === solutions.length) callback();
+        };
+    });
+}
 
 function startGame(ods) {
     currentODS = ods;
@@ -56,8 +86,15 @@ function startGame(ods) {
     player.x = 0;
     player.y = canvas.height - player.size;
 
-    update();
+    background.onload = () => {
+        update(); 
+    };
+
+    loadSolutionImages(solutions, () => {
+        update(); 
+    });
 }
+
 
 function resetGame() {
     levelsCompleted++;
@@ -68,6 +105,7 @@ function resetGame() {
 }
 
 function drawBackground() {
+    ctx.globalAlpha = 1.0;
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 }
 
@@ -77,10 +115,9 @@ function drawPlayer() {
 
 function drawSolutions() {
     solutions.forEach(solution => {
-        ctx.fillStyle = solution.color;
-        ctx.beginPath();
-        ctx.arc(solution.x + solution.size / 2, solution.y + solution.size / 2, solution.size / 2, 0, Math.PI * 2);
-        ctx.fill();
+        if (solution.image) {
+            ctx.drawImage(solution.image, solution.x, solution.y, solution.size, solution.size);
+        }
     });
 }
 
@@ -109,21 +146,18 @@ function checkCollision() {
 function animateCollection(solution) {
     let size = solution.size;
     let interval = setInterval(() => {
-        ctx.clearRect(solution.x - 5, solution.y - 5, size + 10, size + 10);
+        update(); // Garante que o fundo e os outros itens sejam redesenhados corretamente
+        ctx.drawImage(solution.image, solution.x, solution.y, size, size);
         size += 5;
-        ctx.fillStyle = solution.color;
-        ctx.beginPath();
-        ctx.arc(solution.x + solution.size / 2, solution.y + solution.size / 2, size / 2, 0, Math.PI * 2);
-        ctx.fill();
-        if (size > 40) clearInterval(interval);
+        if (size > 60) clearInterval(interval);
     }, 50);
 }
 
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBackground();
-    drawPlayer();
     drawSolutions();
+    drawPlayer();
     checkCollision();
 }
 
