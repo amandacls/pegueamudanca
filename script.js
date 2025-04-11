@@ -193,12 +193,29 @@ function startLevel(level) {
   items = solutionList;
 
   if (level === 1) {
-    collectedItemMessage = "✅ ODS 2: Alimentação saudável e sustentável para erradicar a fome!";
+    collectedItemMessage = `
+      ✅ <strong>ODS 2: Fome Zero e Agricultura Sustentável</strong><br><br>
+      Você ajudou a construir um mundo sem fome! 🥦<br>
+      As soluções que você coletou representam ações fundamentais como o incentivo à agricultura sustentável,
+      a criação de bancos de alimentos e programas de merenda escolar.<br>
+      Cada passo ajuda a garantir que ninguém durma com fome e que todos tenham acesso a alimentos nutritivos e acessíveis.
+    `;
   } else if (level === 2) {
-    collectedItemMessage = "✅ ODS 3: Saúde de qualidade é um direito de todos!";
+    collectedItemMessage = `
+      ✅ <strong>ODS 3: Saúde e Bem-Estar</strong><br><br>
+      Um mundo saudável começa com acesso! 🏥<br>
+      Vacinação, saneamento básico e saúde mental foram algumas das soluções que você encontrou.<br>
+      Ao apoiar essas iniciativas, você garantiu que mais pessoas tenham qualidade de vida e acesso a cuidados de saúde essenciais.
+    `;
   } else if (level === 3) {
-    collectedItemMessage = "✅ ODS 10: Reduzir desigualdades é construir um mundo mais justo!";
+    collectedItemMessage = `
+      ✅ <strong>ODS 10: Redução das Desigualdades</strong><br><br>
+      Você lutou por um mundo mais justo! 🤝<br>
+      Inclusão digital, capacitação e leis contra a discriminação são pilares para reduzir as desigualdades sociais e econômicas.<br>
+      Cada solução representa uma oportunidade a mais para que ninguém fique para trás.
+    `;
   }
+  
 }
 
 function startGame() {
@@ -236,4 +253,55 @@ function move(direction) {
   if (direction === "up") playerY -= playerSpeed;
   if (direction === "down") playerY += playerSpeed;
   update();
+}
+
+function gerarCertificado(nomeJogador) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 800;
+  canvas.height = 600;
+  const ctx = canvas.getContext('2d');
+
+  // Fundo
+  ctx.fillStyle = '#7a9cff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Título
+  ctx.fillStyle = '#222';
+  ctx.font = '30px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('CERTIFICADO DE CONCLUSÃO', canvas.width / 2, 80);
+
+  // Nome
+  ctx.font = '26px Arial';
+  ctx.fillText(nomeJogador, canvas.width / 2, 160);
+
+  // Texto principal
+  ctx.font = '20px Arial';
+  ctx.fillText('Por completar todos os desafios com coragem, estratégia e consciência,', canvas.width / 2, 220);
+  ctx.fillText('demonstrando profundo entendimento sobre os', canvas.width / 2, 250);
+  ctx.fillText('Objetivos de Desenvolvimento Sustentável', canvas.width / 2, 280);
+  ctx.fillText('e o impacto de pequenas ações para um mundo melhor.', canvas.width / 2, 310);
+
+  // Nome do jogo
+  ctx.font = '22px Arial';
+  ctx.fillText('Jogo: Pegue a Mudança!', canvas.width / 2, 380);
+
+  // Assinatura
+  ctx.font = '18px Arial';
+  ctx.fillText('Amanda Santana - Jogos Digitais - 2024.2', canvas.width / 2, 460);
+
+  // Botão de download
+  const link = document.createElement('a');
+  link.download = 'certificado-pegue-a-mudanca.png';
+  link.href = canvas.toDataURL();
+  link.click();
+}
+
+function baixarCertificado() {
+  const nome = document.getElementById('nome-jogador').value.trim();
+  if (!nome) {
+    alert("Por favor, digite seu nome para gerar o certificado!");
+    return;
+  }
+  gerarCertificado(nome);
 }

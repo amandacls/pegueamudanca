@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jogo ODS</title>
+  <title>Pegue a mudança!</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <h1>Pegue a mudança</h1>
-  <h3>Escolha uma ODS e pegue soluções para ela</h3>
+  <h1>Pegue a mudança!</h1>
+  <h3>Utilize as setas do teclado para movimentar a garota e coletar soluções!</h3>
 
   <!-- Start Screen -->
   <div id="start-screen" class="screen">
-    <h1>🌍 Jogo dos ODS</h1>
+    <h1>🌍 Pegue a mudança! 🌍</h1>
     <p>Ajude a personagem a coletar soluções para um mundo melhor!</p>
     <button onclick="startGame()">Iniciar Jogo</button>
   </div>
@@ -28,6 +28,9 @@
     <h1>🎉 Parabéns!</h1>
     <p>Você concluiu todos os níveis do jogo!</p>
     <button onclick="restartGame()">Jogar Novamente</button>
+    <p>Por favor, digite seu nome para gerar seu certificado!</p>
+    <input id="nome-jogador" placeholder="Digite seu nome" style="padding: 10px; font-size: 16px; margin: 10px;">
+    <button onclick="baixarCertificado()">📄 Baixar Certificado</button>
   </div>
 
   
